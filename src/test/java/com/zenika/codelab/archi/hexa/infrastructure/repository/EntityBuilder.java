@@ -50,7 +50,8 @@ public class EntityBuilder {
                 .quantite(quantite)
                 .prixUnite(prixUnitaire)
                 .libelle(description)
-                .montant(value).build();
+                .montant(value)
+                .id(1).build();
     }
 
     /**

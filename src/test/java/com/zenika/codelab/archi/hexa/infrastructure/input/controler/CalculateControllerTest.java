@@ -2,6 +2,7 @@ package com.zenika.codelab.archi.hexa.infrastructure.input.controler;
 
 import com.zenika.codelab.archi.hexa.Main;
 import com.zenika.codelab.archi.hexa.domain.model.CaisseVO;
+import com.zenika.codelab.archi.hexa.domain.model.ChiffreAffaireGlobal;
 import com.zenika.codelab.archi.hexa.domain.model.ChiffreAffaireParCaisse;
 import com.zenika.codelab.archi.hexa.domain.port.input.CalculCAPort;
 import lombok.SneakyThrows;
@@ -16,6 +17,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -40,36 +42,36 @@ class CalculateControllerTest {
     }
 
 
-//    @Test
-//    @SneakyThrows
-//    void invalid_param_computeFromDate() {
-//        var url = "/api/ca/truc";
-//        mvc.perform(get(url)
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(jsonPath("$.message", Matchers.startsWith("Method parameter 'date': Failed to convert value of type 'java.lang.String' to required type 'java.time.LocalDate'")));
-//    }
+    @Test
+    @SneakyThrows
+    void invalid_param_computeFromDate() {
+        var url = "/api/ca/truc";
+        mvc.perform(get(url)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", Matchers.startsWith("Method parameter 'date': Failed to convert value of type 'java.lang.String' to required type 'java.time.LocalDate'")));
+    }
 
 
-//    @Test
-//    @SneakyThrows
-//    void test_format_date() {
-//        var url = "/api/ca/2025-01-01";
-//        var chiffreAffaire = new ChiffreAffaireGlobal(List.of(new ChiffreAffaireParCaisse(new CaisseVO("A"), BigDecimal.ONE),
-//                new ChiffreAffaireParCaisse(new CaisseVO("B"), BigDecimal.ZERO)),
-//                BigDecimal.valueOf(12));
-//
-//        when(calculCAPort.computeFromDate(any())).thenReturn(chiffreAffaire);
-//
-//        mvc.perform(get(url)
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().is2xxSuccessful())
-//                .andExpect(jsonPath("$.caisses[0].ca", Matchers.is(1)))
-//                .andExpect(jsonPath("$.caisses[0].caisseVO.libelle", Matchers.equalTo("A")))
-//                .andExpect(jsonPath("$.caisses[1].ca", Matchers.is(0)))
-//                .andExpect(jsonPath("$.caisses[1].caisseVO.libelle", Matchers.equalTo("B")))
-//                .andExpect(jsonPath("$.caTotal", Matchers.is(12)));
-//    }
+    @Test
+    @SneakyThrows
+    void test_format_date() {
+        var url = "/api/ca/2025-01-01";
+        var chiffreAffaire = new ChiffreAffaireGlobal(List.of(new ChiffreAffaireParCaisse(new CaisseVO("A"), BigDecimal.ONE),
+                new ChiffreAffaireParCaisse(new CaisseVO("B"), BigDecimal.ZERO)),
+                BigDecimal.valueOf(12));
+
+        when(calculCAPort.computeFromDate(any())).thenReturn(chiffreAffaire);
+
+        mvc.perform(get(url)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("$.caisses[0].ca", Matchers.is(1)))
+                .andExpect(jsonPath("$.caisses[0].caisseVO.libelle", Matchers.equalTo("A")))
+                .andExpect(jsonPath("$.caisses[1].ca", Matchers.is(0)))
+                .andExpect(jsonPath("$.caisses[1].caisseVO.libelle", Matchers.equalTo("B")))
+                .andExpect(jsonPath("$.caTotal", Matchers.is(12)));
+    }
 
 
     @Test

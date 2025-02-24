@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,11 +29,8 @@ public class TicketRepositoryPortAdaptor implements TicketServiceRepositoryPort 
     @Override
     public TicketVO getFromId(Long id) {
 
-        return Optional.of(ticketRepository.findById(id)).map(ticketEntity -> {
-            var t = ticketEntity.get();
-            return buildTicketVO(t);
-
-        }).orElseThrow(() -> new DataNotFound(String.valueOf(id)));
+        return Optional.ofNullable(ticketRepository.findById(id)).orElseThrow(() -> new DataNotFound(String.valueOf(id)))
+                .map(this::buildTicketVO).orElseThrow(() -> new DataNotFound(String.valueOf(id)));
     }
 
     @Override

@@ -10,8 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -43,13 +45,17 @@ public class TicketService implements TicketServicePort {
 
     private boolean controlMontantFacture(TicketVO ticket) {
 
+        var montantSigne = Optional.ofNullable(ticket.montantTotal()).orElse(BigDecimal.ZERO).signum();
         var codeStatus = ticket.ticketStatus().getCode();
-
-        if (codeStatus.equals(TicketStatus.FACTURE.getCode()) && (ticket.montantTotal().signum() == -1)) { // facture avec montant négative
-            return false;
-        } else if (codeStatus.equals(TicketStatus.AVOIR.getCode()) && (ticket.montantTotal().signum() == 1)) { // avoir avec montant positif
-            return false;
-        } else return true;
+        if(montantSigne != 0){
+            if (montantSigne ==-1) {
+                return !codeStatus.equals(TicketStatus.FACTURE.getCode());
+            }else {
+                return !codeStatus.equals(TicketStatus.AVOIR.getCode());
+            }
+        }else {
+            return true;
+        }
     }
 
 }

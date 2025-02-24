@@ -63,7 +63,7 @@ class TicketControllerTest {
         mvc.perform(get(url)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is5xxServerError())
-                .andExpect(jsonPath("$.message", Matchers.startsWith("Echec controle du model Facture , montant")));
+                .andExpect(jsonPath("$.message", Matchers.startsWith("Echec controle du model Facture id 1, montant -12,00 ")));
     }
 
 

@@ -27,7 +27,7 @@ class TicketStatusPortAdaptorTest {
     private TicketStatusRepository repository;
 
     @ParameterizedTest
-    @ValueSource(strings = {"F", "A",})
+    @ValueSource(strings = {"F", "A","R","G","T","U",})
     @DisplayName("Convertion entité en domain")
     void test_convertion_status_connu(String code) {
         var entity = buildTicketStatusEntity(code, String.format("test %s", code));
